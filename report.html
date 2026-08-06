@@ -1,0 +1,517 @@
+<title>애드센스 니치사이트 확장 전략 — 1차 분석 리포트</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7;
+    --surface: #ffffff;
+    --surface-2: #f3f2ee;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --muted: #898781;
+    --line: #e1e0d9;
+    --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6;
+    --accent-soft: #cde2fb;
+    --cat-1: #2a78d6;
+    --cat-2: #eb6834;
+    --cat-3: #1baf7a;
+    --good: #0ca30c;
+    --warning: #fab219;
+    --critical: #d03b3b;
+    --critical-soft: #fbe4e3;
+    --warning-soft: #fef3da;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page: #0d0d0d;
+      --surface: #1a1a19;
+      --surface-2: #202020;
+      --ink: #ffffff;
+      --ink-2: #c3c2b7;
+      --muted: #898781;
+      --line: #2c2c2a;
+      --border: rgba(255,255,255,0.10);
+      --accent: #3987e5;
+      --accent-soft: #16324f;
+      --cat-1: #3987e5;
+      --cat-2: #d95926;
+      --cat-3: #199e70;
+      --good: #0ca30c;
+      --warning: #fab219;
+      --critical: #e66767;
+      --critical-soft: #3a1f1e;
+      --warning-soft: #362c14;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-2: #202020;
+    --ink: #ffffff;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --line: #2c2c2a;
+    --border: rgba(255,255,255,0.10);
+    --accent: #3987e5;
+    --accent-soft: #16324f;
+    --cat-1: #3987e5;
+    --cat-2: #d95926;
+    --cat-3: #199e70;
+    --good: #0ca30c;
+    --warning: #fab219;
+    --critical: #e66767;
+    --critical-soft: #3a1f1e;
+    --warning-soft: #362c14;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+      'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  header.hero {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-meta {
+    color: var(--muted);
+    font-size: 14px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  section { margin-bottom: 44px; }
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 4px;
+    letter-spacing: -0.005em;
+  }
+  .section-sub {
+    color: var(--ink-2);
+    font-size: 14px;
+    margin: 0 0 18px;
+    max-width: 68ch;
+  }
+
+  /* stat tiles */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 16px 14px;
+  }
+  .tile .label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .tile .value {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .tile .sub {
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+
+  /* generic card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+  }
+
+  /* tables */
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    font-size: 13.5px;
+    min-width: 560px;
+  }
+  thead th {
+    text-align: left;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  td.rank { color: var(--muted); font-size: 12px; }
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--accent-soft);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* bar chart (horizontal, single-series magnitude) */
+  .barchart { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: grid; grid-template-columns: 168px 1fr 74px; align-items: center; gap: 10px; }
+  .bar-label { font-size: 13px; color: var(--ink-2); }
+  .bar-track { background: var(--surface-2); border-radius: 5px; height: 16px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--accent); border-radius: 5px; }
+  .bar-value { font-size: 12.5px; color: var(--ink); text-align: right; font-weight: 700; }
+
+  /* three-series comparison bars */
+  .cmp-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .cmp-card { background: var(--surface-2); border-radius: 10px; padding: 14px 16px; }
+  .cmp-card .name { font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; }
+  .cmp-card .rpm { font-size: 21px; font-weight: 800; }
+  .cmp-track { margin-top: 10px; background: var(--surface); border-radius: 5px; height: 8px; overflow: hidden; }
+  .cmp-fill { height: 100%; border-radius: 5px; }
+  .cmp-card .foot { margin-top: 8px; font-size: 11.5px; color: var(--muted); }
+
+  /* traffic donut-ish stacked bar */
+  .stack { display: flex; height: 26px; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); }
+  .stack > div { height: 100%; }
+  .stack-legend { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); }
+  .stack-legend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+
+  /* callouts */
+  .callout {
+    border-radius: 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+  }
+  .callout.critical { background: var(--critical-soft); border-color: color-mix(in srgb, var(--critical) 35%, transparent); }
+  .callout.warning { background: var(--warning-soft); border-color: color-mix(in srgb, var(--warning) 45%, transparent); }
+  .callout .icon { font-size: 18px; line-height: 1.3; }
+  .callout .cbody { font-size: 13.5px; color: var(--ink); }
+  .callout .cbody b { display: block; margin-bottom: 4px; font-size: 14.5px; }
+  .callout ul { margin: 8px 0 0; padding-left: 18px; }
+  .callout li { margin-bottom: 4px; }
+
+  .formula-box {
+    background: var(--surface-2);
+    border-radius: 12px;
+    padding: 20px 22px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .formula-box .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-weight: 700;
+  }
+  .formula-box .plus { color: var(--muted); }
+
+  .priority-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .prio-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .prio-rank { font-weight: 800; color: var(--accent); font-size: 15px; }
+  .prio-name { font-weight: 700; font-size: 14px; }
+  .prio-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
+  .prio-rpm { text-align: right; font-size: 13px; }
+  .prio-rpm .v { font-weight: 800; font-size: 16px; }
+  .prio-rpm .l { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .cmp-group { grid-template-columns: 1fr; }
+    .bar-row { grid-template-columns: 108px 1fr 60px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">애드센스 니치사이트 확장 전략 · 1차 분석</div>
+    <h1>research.csv 매출 구조 분석 &amp; 서브도메인 증식 전략 리포트</h1>
+    <div class="hero-meta">
+      <span>속성: zucca100 (더픽 외)</span>
+      <span>기간: 2026-04-01 ~ 2026-08-05 (127일)</span>
+      <span>원본 5,631행 · 고유 페이지 2,202개</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="tiles">
+      <div class="tile">
+        <div class="label">총 조회수</div>
+        <div class="value num">332,178</div>
+        <div class="sub">활성 사용자 약 21.8만</div>
+      </div>
+      <div class="tile">
+        <div class="label">총수익 (127일)</div>
+        <div class="value num">$6,951.18</div>
+        <div class="sub num">일 평균 약 $54.7</div>
+      </div>
+      <div class="tile">
+        <div class="label">평균 RPM</div>
+        <div class="value num">$20.93</div>
+        <div class="sub">조회수 1,000회당</div>
+      </div>
+      <div class="tile">
+        <div class="label">매출 집중도</div>
+        <div class="value num">상위 17p = 50%</div>
+        <div class="sub">전체 2,202개 중 0.8%</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>1. 핵심 발견 — 매출이 극단적으로 소수 키워드에 쏠려 있다</h2>
+    <p class="section-sub">고유 페이지(키워드) 2,202개를 매출순으로 줄 세우면, 상위 17개(0.8%)가 전체 매출의 절반을, 상위 126개(5.7%)가 80%를 만든다. 즉 "많은 페이지"가 아니라 "정확한 소수의 황금 키워드"가 이 비즈니스 모델의 본질이다 — 사용자가 요청한 "소규모 사이트 + 확실한 소수 키워드" 전략과 정확히 일치하는 구조다.</p>
+    <div class="card">
+      <div class="barchart">
+        <div class="bar-row"><div class="bar-label">상위 17개 페이지</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="bar-value">50%</div></div>
+        <div class="bar-row"><div class="bar-label">상위 65개 페이지</div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><div class="bar-value">70%</div></div>
+        <div class="bar-row"><div class="bar-label">상위 126개 페이지</div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><div class="bar-value">80%</div></div>
+        <div class="bar-row"><div class="bar-label">상위 252개 페이지</div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div><div class="bar-value">90%</div></div>
+        <div class="bar-row"><div class="bar-label">상위 394개 페이지</div><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div><div class="bar-value">95%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. 트래픽 소스 — 이미 "네이버 올인" 구조, 구글은 유의미하지 않음</h2>
+    <p class="section-sub">전체 트래픽의 92.9%가 네이버 관련 채널이거나 리퍼러가 소실된 direct 유입이다. 구글 오가닉은 170회(0.05%)에 불과 — 사용자가 요청한 "네이버 등 검색엔진 중심" 전략은 이미 기존 사이트에서 검증된 방식이다.</p>
+    <div class="card">
+      <div class="stack">
+        <div style="width:60.5%; background:var(--cat-1)"></div>
+        <div style="width:32.4%; background:var(--cat-3)"></div>
+        <div style="width:7.1%; background:var(--muted)"></div>
+      </div>
+      <div class="stack-legend">
+        <span><span class="dot" style="background:var(--cat-1)"></span>Direct / 리퍼러 없음 — 60.5% (200,807회)</span>
+        <span><span class="dot" style="background:var(--cat-3)"></span>네이버 채널 합계 — 32.4% (107,690회)</span>
+        <span><span class="dot" style="background:var(--muted)"></span>기타(다음·빙·블로그 등) — 7.1% (23,681회)</span>
+      </div>
+      <p style="font-size:13px; color:var(--ink-2); margin:14px 0 0;">참고: "direct" 항목의 상당수는 실제로는 네이버 모바일 앱 인앱 브라우저에서 리퍼러가 전달되지 않아 direct로 잡힌 트래픽일 가능성이 높다 — 페이지 제목 대부분이 "브랜드+바로가기" 형태의 내비게이셔널 검색어인데, 이런 키워드를 사용자가 URL을 외워서 직접 입력할 이유가 없기 때문이다. 실질적인 네이버 의존도는 표기된 32.4%보다 훨씬 클 것으로 추정된다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. 이미 진행 중이던 멀티사이트 실험 — "더픽" 외 2개 서브 브랜드가 이미 검증 중</h2>
+    <p class="section-sub">데이터 안에 "더픽" 외에 "생활정보 나침반", "주카 비즈"라는 별도 타이틀 포맷의 사이트가 이미 존재하며, 규모는 작지만(66~72페이지) RPM은 본대 사이트와 대등하거나 더 높다. 즉 사용자가 지금 구상하는 "소규모 사이트 증식" 전략은 이미 부분적으로 실행되어 유효성이 확인된 상태다.</p>
+    <div class="card">
+      <div class="cmp-group">
+        <div class="cmp-card">
+          <div class="name">더픽 (기존 메인)</div>
+          <div class="rpm num">$21.53 <span style="font-size:12px; font-weight:600; color:var(--muted)">RPM</span></div>
+          <div class="cmp-track"><div class="cmp-fill" style="width:81%; background:var(--cat-1)"></div></div>
+          <div class="foot num">1,782페이지 · 조회수 305,127 · 매출 $6,570.76</div>
+        </div>
+        <div class="cmp-card">
+          <div class="name">주카 비즈 (신규)</div>
+          <div class="rpm num">$26.52 <span style="font-size:12px; font-weight:600; color:var(--muted)">RPM</span></div>
+          <div class="cmp-track"><div class="cmp-fill" style="width:100%; background:var(--cat-2)"></div></div>
+          <div class="foot num">66페이지 · 조회수 4,890 · 매출 $129.69</div>
+        </div>
+        <div class="cmp-card">
+          <div class="name">생활정보 나침반 (신규)</div>
+          <div class="rpm num">$18.89 <span style="font-size:12px; font-weight:600; color:var(--muted)">RPM</span></div>
+          <div class="cmp-track"><div class="cmp-fill" style="width:71%; background:var(--cat-3)"></div></div>
+          <div class="foot num">72페이지 · 조회수 8,943 · 매출 $168.97</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>4. 승리 공식 — RPM $90~250을 만드는 키워드 구조</h2>
+    <p class="section-sub">RPM 상위권을 조회수 100회 이상 페이지로만 다시 정렬해도 패턴은 명확하다: 검색량은 작지만 "찾는 이유가 명확하고, 페이지 안에 할 행동이 단 하나"인 내비게이셔널 키워드가 압도적으로 높은 RPM을 낸다.</p>
+    <div class="formula-box">
+      <span class="chip">브랜드/기관/서비스명</span>
+      <span class="plus">+</span>
+      <span class="chip">바로가기 · 고객센터 · 홈페이지 · 앱 다운로드 · 신청</span>
+      <span class="plus">=</span>
+      <span class="chip" style="background:var(--accent-soft); color:var(--accent); border-color:transparent;">RPM $50~250</span>
+    </div>
+    <div class="table-wrap" style="margin-top:16px;">
+      <table>
+        <thead>
+          <tr><th class="rank">#</th><th>페이지 제목</th><th class="num">조회수</th><th class="num">수익($)</th><th class="num">RPM($)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="rank">1</td><td>비대면 계좌 개설 바로가기</td><td class="num">1,638</td><td class="num">410.60</td><td class="num"><span class="pill">250.7</span></td></tr>
+          <tr><td class="rank">2</td><td>피망 바둑 다운로드 바로가기</td><td class="num">79</td><td class="num">14.05</td><td class="num"><span class="pill">177.9</span></td></tr>
+          <tr><td class="rank">3</td><td>kb국민카드 홈페이지 바로가기</td><td class="num">156</td><td class="num">25.96</td><td class="num"><span class="pill">166.4</span></td></tr>
+          <tr><td class="rank">4</td><td>매일미사 앱 다운로드</td><td class="num">354</td><td class="num">56.72</td><td class="num"><span class="pill">160.2</span></td></tr>
+          <tr><td class="rank">5</td><td>nh농협카드 홈페이지 바로가기</td><td class="num">130</td><td class="num">16.83</td><td class="num"><span class="pill">129.4</span></td></tr>
+          <tr><td class="rank">6</td><td>네이버 밴드 앱 다운로드</td><td class="num">121</td><td class="num">15.45</td><td class="num"><span class="pill">127.7</span></td></tr>
+          <tr><td class="rank">7</td><td>어카운트인포 앱 설치방법·인증서 조회</td><td class="num">197</td><td class="num">24.67</td><td class="num"><span class="pill">125.2</span></td></tr>
+          <tr><td class="rank">8</td><td>케이뱅크 앱 설치 및 다운로드</td><td class="num">317</td><td class="num">39.66</td><td class="num"><span class="pill">125.1</span></td></tr>
+          <tr><td class="rank">9</td><td>생활안정자금 대출 신청하기</td><td class="num">182</td><td class="num">20.07</td><td class="num"><span class="pill">110.3</span></td></tr>
+          <tr><td class="rank">10</td><td>예별손해보험 보험금청구 고객센터 바로가기</td><td class="num">873</td><td class="num">67.22</td><td class="num"><span class="pill">77.0</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13px; color:var(--ink-2); margin-top:12px;">공통점: ① 검색 의도가 "정보 탐색"이 아니라 "이동/실행"(계좌 개설, 홈페이지 이동, 앱 설치) — 체류 중 광고 노출이 자연스럽게 발생 ② 경쟁 대형 언론사/포털이 굳이 만들지 않는 좁은 카테고리 ③ 페이지 내 CTA가 "공식 링크로 이동" 단 하나뿐이라 이탈 전 광고 클릭·노출 기회가 큼 ④ 절대 검색량 자체는 작아 대형 사이트가 굳이 노리지 않는 틈새.</p>
+  </section>
+
+  <section>
+    <h2>5. 카테고리별 RPM 랭킹 — 어떤 주제 축으로 사이트를 세울지</h2>
+    <p class="section-sub">전체 키워드를 패턴으로 태깅해 카테고리별 RPM과 규모를 비교했다. "정당가입탈당"과 "연예/투표/팬덤"은 RPM은 높지만 3~53페이지의 초소형·이슈성(정치 이벤트, 팬덤 이슈) 카테고리라 반복재현이 어렵다 — 신규 사이트의 기반으로는 아래 실선 카테고리가 더 안전하다.</p>
+    <div class="card">
+      <div class="barchart">
+        <div class="bar-row"><div class="bar-label">보험금청구 (9p)</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-value num">$72.9</div></div>
+        <div class="bar-row"><div class="bar-label">신청/조회·정부지원 (280p)</div><div class="bar-track"><div class="bar-fill" style="width:61.5%"></div></div><div class="bar-value num">$44.8</div></div>
+        <div class="bar-row"><div class="bar-label">홈페이지 바로가기 (64p)</div><div class="bar-track"><div class="bar-fill" style="width:59.1%"></div></div><div class="bar-value num">$43.1</div></div>
+        <div class="bar-row"><div class="bar-label">고유가·생활지원금 (16p)</div><div class="bar-track"><div class="bar-fill" style="width:51.3%"></div></div><div class="bar-value num">$37.4</div></div>
+        <div class="bar-row"><div class="bar-label">고객센터/AS (227p)</div><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><div class="bar-value num">$29.2</div></div>
+        <div class="bar-row"><div class="bar-label">바로가기 전반 (596p)</div><div class="bar-track"><div class="bar-fill" style="width:35.5%"></div></div><div class="bar-value num">$25.9</div></div>
+        <div class="bar-row"><div class="bar-label">앱/설치 다운로드 (189p)</div><div class="bar-track"><div class="bar-fill" style="width:31.1%"></div></div><div class="bar-value num">$22.7</div></div>
+        <div class="bar-row"><div class="bar-label">편성표/방송 (31p)</div><div class="bar-track"><div class="bar-fill" style="width:30.4%"></div></div><div class="bar-value num">$22.2</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>6. 신규 사이트 후보 카테고리 우선순위</h2>
+    <p class="section-sub">RPM, 재현 가능성(같은 패턴으로 계속 새 키워드를 만들 수 있는지), 계절성 리스크를 종합해 우선순위를 매겼다.</p>
+    <div class="priority-grid">
+      <div class="prio-row">
+        <div class="prio-rank">1</div>
+        <div><div class="prio-name">보험사별 "보험금 청구 바로가기"</div><div class="prio-desc">카테고리 최고 단가(RPM $72.9). 보험사 수 × 상품군으로 키워드 조합이 많고 평생 반복 검색되는 완전 에버그린 니즈.</div></div>
+        <div class="prio-rpm"><div class="v num">$72.9</div><div class="l">RPM</div></div>
+      </div>
+      <div class="prio-row">
+        <div class="prio-rank">2</div>
+        <div><div class="prio-name">정부·지자체 지원금 "신청·조회 바로가기"</div><div class="prio-desc">이미 280페이지 규모로 검증됨. 정책이 매 분기 새로 생겨(고유가지원금 등) 신규 키워드가 끊이지 않고 공급됨.</div></div>
+        <div class="prio-rpm"><div class="v num">$44.8</div><div class="l">RPM</div></div>
+      </div>
+      <div class="prio-row">
+        <div class="prio-rank">3</div>
+        <div><div class="prio-name">금융기관 "홈페이지/앱 바로가기"</div><div class="prio-desc">은행·카드사·저축은행 조합만으로도 수백 개 키워드. 검색자가 정확히 하나의 행동(로그인/앱설치)만 원해 CTA가 명확.</div></div>
+        <div class="prio-rpm"><div class="v num">$43.1</div><div class="l">RPM</div></div>
+      </div>
+      <div class="prio-row">
+        <div class="prio-rank">4</div>
+        <div><div class="prio-name">가전/서비스 "고객센터·AS센터 바로가기"</div><div class="prio-desc">현재 227페이지로 가장 규모가 큰 검증된 카테고리 — 브랜드 수가 사실상 무한해 확장성 최고.</div></div>
+        <div class="prio-rpm"><div class="v num">$29.2</div><div class="l">RPM</div></div>
+      </div>
+      <div class="prio-row">
+        <div class="prio-rank">5</div>
+        <div><div class="prio-name">생활 필수 "앱 설치·다운로드"</div><div class="prio-desc">공공앱·생활앱이 계속 신규 출시되어 키워드가 지속 공급됨. 다만 RPM은 중간 수준.</div></div>
+        <div class="prio-rpm"><div class="v num">$22.7</div><div class="l">RPM</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>7. 정책 리스크 — 반드시 짚어야 할 부분</h2>
+    <div class="callout critical">
+      <div class="icon">⚠️</div>
+      <div class="cbody">
+        <b>현재 상위 매출 페이지 중 일부가 애드센스 정책 위반 소지가 있음</b>
+        "킹콩티비 무료 사이트 바로가기"(매출 2위, $428.97), "블루티비 사이트 주소 링크"(매출 8위, $152.58), "무료 스포츠중계 블루티비" 등은 저작권 미확보 스트리밍 사이트로의 안내 콘텐츠로 보이며, 이는 구글 애드센스 프로그램 정책상 "저작권 침해 콘텐츠"에 해당해 <b style="display:inline">계정 전체 정지</b> 사유가 될 수 있다. "피망뉴맞고 머니 파는 법"(게임머니 현금 거래), "대만 복권 당첨 확인"(해외 복권)도 도박 인접 콘텐츠로 회색지대다.
+        <ul>
+          <li>신규로 여러 사이트를 하나의 애드센스 계정에 묶을 경우, 이 소수 페이지 때문에 전체 네트워크가 한 번에 정지될 수 있다.</li>
+          <li>단기적으로: 리스크 콘텐츠는 별도 도메인/별도 애드센스 계정으로 분리하거나, 신규 확장 전에 단계적으로 정리 검토 권장.</li>
+          <li>신규 사이트군은 위 5번 표의 "정부·금융·고객센터형" 콘텐츠로만 구성하면 정책 리스크 없이 동일한 포맷을 재현 가능.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout warning" style="margin-top:12px;">
+      <div class="icon">🛈</div>
+      <div class="cbody">
+        <b>네이버 어뷰징 필터 관련 유의사항</b>
+        네이버는 C-Rank/D.I.A. 로직상 "찍어내기식 유사 문서" 양산과 법적 이슈가 있는 키워드에 대해 노출을 걸러낸다. 여러 사이트를 동시에 늘릴 때 템플릿을 완전히 동일하게 복제하면 유사문서로 묶여 억제될 수 있으므로, 사이트별 실제 원본 정보(전화번호, 최신 URL, 캡처 등)를 개별 검증·업데이트하는 최소한의 편집 공수는 유지하는 것이 안전하다.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>8. 웹 리서치 — 유사 전략을 쓰는 사례</h2>
+    <p class="section-sub">해외에서는 이 방식이 "애드센스 아비트리지(AdSense Arbitrage)" 또는 "내비게이셔널 키워드 니치사이트"로 통칭되며, 보험·금융을 가장 수익성 높은 분야로 꼽는 자료가 많다 — 본 데이터에서 보험금청구 카테고리가 전체 1위 RPM을 기록한 것과 정확히 일치한다. 국내에서는 "고객센터 바로가기"류 사이트가 다수 존재하지만 공개된 수익 구조 분석 자료는 거의 없어, 이번 자체 데이터 분석이 가장 신뢰도 높은 근거였다.</p>
+    <div class="card" style="font-size:13.5px; color:var(--ink-2);">
+      <ul style="margin:0; padding-left:20px;">
+        <li>보험·금융이 애드센스 CPC 최고가 카테고리로 반복 언급됨 → 본 데이터의 "보험금청구" RPM 1위와 일치</li>
+        <li>애드센스 정책: 저작권 침해·도박 콘텐츠는 계정 정지 사유로 명시 → 7번 리스크 항목과 직결</li>
+        <li>국내 네이버 SEO 대행 업계에서도 "법적 이슈 있는 키워드는 상위노출 서비스 불가"를 공통적으로 명시 — 신규 사이트 설계 시 합법·생활밀착 카테고리 위주가 안전하다는 점을 뒷받침</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>다음 단계</h2>
+    <p class="section-sub">1차 분석은 여기까지입니다. 레퍼런스 사이트를 주시면 그 사이트의 키워드/CTA/레이아웃 구조를 이번 데이터와 교차 분석해서, 실제로 만들 사이트 1~2개의 구체적인 키워드 리스트와 사이트 구조안을 잡아보겠습니다.</p>
+  </section>
+
+  <footer>
+    데이터 출처: research.csv (GA4 "페이지 제목 및 화면 클래스" 리포트, zucca100 속성) · 분석 기준일 2026-08-05
+  </footer>
+
+</div>

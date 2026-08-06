@@ -1,0 +1,6 @@
+Total unique pages(keywords): 2202, total revenue: 6951.18
+Top 17 pages (0.8% of pages) = 50% of revenue
+Top 65 pages (3.0% of pages) = 70% of revenue
+Top 126 pages (5.7% of pages) = 80% of revenue
+Top 252 pages (11.4% of pages) = 90% of revenue
+Top 394 pages (17.9% of pages) = 95% of revenue
