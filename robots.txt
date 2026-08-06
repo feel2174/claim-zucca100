@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /report.html
+
+Sitemap: https://claim.zucca100.com/sitemap.xml

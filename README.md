@@ -63,3 +63,75 @@
 
 리포트 7번 섹션의 애드센스 정책 리스크(저작권 침해 콘텐츠 관련 계정 정지 경고)도 신규 사이트
 확장 전에 참고할 것.
+
+2026-08-06 저녁, 4차 세션 — 딥링크 3차 검증 + SEO/검색유입 리서치 반영:
+1. **딥링크 3차 검증**: 병렬 서브에이전트 3개(생명 18개사 / 손해 12개사 / SEO 리서치)를
+   동시 실행. "홈페이지 바로가기"였던 30개사 중 26개사의 실제 보험금(실손) 청구 안내/신청
+   서브페이지를 WebSearch+WebFetch로 찾아 `data-level="home"` → `direct`로 승격, href 교체,
+   `co-tag`의 "· 홈페이지" 접미사 제거. **KDB생명·푸본현대생명·IBK연금보험**(공개 딥링크 없이
+   로그인 경유 사이버창구만 존재)와 **롯데손해보험**(공식 청구 페이지가 WAF 차단 + 로그인
+   게이트)은 근거 불충분으로 홈페이지 링크 유지. 최종 38개사 중 34개사 direct, 4개사 home.
+   ABL생명·동양생명·메트라이프생명·AXA손해보험·카카오페이손해보험은 JS SPA라 WebFetch 본문
+   검증은 안 됐지만 검색 결과에서 URL+제목이 일관되게 확인돼 direct로 반영함 — 추후 브라우저
+   육안 재확인 권장. "바로 청구 가능" 필터 카운트도 8→34로 갱신. 이 변경은
+   `claim-hub-prototype.html`과 `scripts/build2.py`의 `TEMPLATE`에 동일하게 반영했고,
+   `python3 scripts/build2.py` 재실행 결과가 수동 편집본과 byte-identical함을 확인함.
+2. **SEO/검색유입 리서치**: 실비(실손의료보험) 청구 검색자의 실제 키워드 패턴을 조사한 결과,
+   `청구닷컴`이라는 동일 포지션(보험사별 청구 링크 허브) 경쟁 사이트가 이미 존재하며 고객센터
+   연락처·서식 PDF·계산기까지 제공해 콘텐츠 깊이에서 앞서 있음을 확인. 실손24(보험업계 공동
+   간편청구)는 연계 병원·약국이 전체의 약 1/4뿐이라 대다수는 여전히 보험사 직접 청구가
+   필요하다는 게 청구창구의 존재 근거. 이번 세션에 반영한 것: (a) 누락돼 있던
+   `<meta name="description">` 신설 + `<title>` 키워드 보강, (b) FAQ 4개→8개로 확장(실비
+   청구 필요서류/10만원 기준, 지급 기한 3~30영업일, 실손24 관계, 자동차보험 접수 안내),
+   (c) `#silson24` 섹션 신설(실손24 소개 + 공식 링크, 안 될 때 청구창구로 이어지는 흐름),
+   내비게이션에도 "실손24" 링크 추가, (d) 기존 "3차 검증 예정" notice 문구를 현재 딥링크
+   현황(34/38)으로 갱신. **아직 반영 안 한 것**(다음 할 일): 카드별 고객센터 전화번호 1줄
+   추가(청구닷컴 대비 최소 격차 해소, 38개사 리서치 필요라 별도 세션 권장), FAQ
+   `<details>/<summary>`의 heading 시맨틱 보강, 카드 회사명 h3 승격 검토.
+
+2026-08-06 밤, 5차 세션 — `impeccable detect` 전수 수정 (178건 → 0건):
+1. **절대경로 버그 발견·수정**: `assets/site.css`/`site.js`를 `href="/assets/..."`로
+   절대경로 참조하던 것이 detect의 스캐너 환경에서 스타일시트 로딩 실패로 이어져, 실제로는
+   전혀 문제없는 페이지들이 "검은 텍스트"로 잘못 스캔되고 있었음(실브라우저로는 정상). 5개
+   HTML 전부 상대경로(`assets/site.css`)로 교체 — 배포(Vercel, 루트 서빙) 결과는 동일.
+2. **이 버그를 고치고 나니 진짜 스캔 결과가 드러남**: `assets/site.css`가 실제로는 여전히
+   구(舊) 블루 계열(`--accent:#3562f7` 등)로 구현돼 있고 `DESIGN.md`(관인 인주색·seal-red)는
+   아직 코드에 반영 안 된 상태였음. 사용자 확인 후 `assets/site.css`의 `:root` 토큰 전체를
+   seal-red/paper-bg 팔레트로 리브랜딩(5개 HTML 페이지 전부 공유 스타일시트라 한 번에 적용).
+   `KoPub World Batang` 명조 디스플레이 폰트는 실제 폰트 파일이 저장소에 없어 이번엔 적용 안
+   함(다음 할 일).
+3. **접근성 실버그 수정**: 대비 부족(seal-red 텍스트가 자체 soft-tint 배경 위에서 4.5:1 미달,
+   muted-warm 텍스트가 종이 배경 위에서 3.1~3.3:1) → `seal-red-soft`를 `#F3E4DE`→`#F5E8E2`,
+   `muted-warm`을 `#948B83`→`#706861`로 미세 조정해 WCAG AA 확보(`DESIGN.md` 팔레트 값도 함께
+   갱신). `.co-tag` 10.5px→12px, 여러 폰트사이즈(10.5/11.5/13/13.5px)를 12/14px 두 단으로
+   통합, `.faq-list`/`.guide-docs`에 8px 패딩 추가.
+4. **`report.html`(애드센스 니치사이트 분석 리포트)은 청구친구 브랜드와 무관한 내부 문서로
+   판단** — 사용자 확인 후 `design-system-color/radius/font` 3개 룰만 이 파일에 한해
+   `.impeccable/config.json`에 ignore 등록. 단, 이 파일 자체에 있던 진짜 버그(다크모드
+   `@media`가 `data-theme="light"` 고정 없이 걸려 있어 시스템 다크모드에서 라이트/다크 변수가
+   섞이던 문제 — `claim-hub-prototype.html`에서 예전에 고쳤던 것과 동일 패턴)는 다크 오버라이드
+   블록을 통째로 제거해 해결. `--accent`/`--muted`도 자체 라이트 팔레트 안에서 AA 대비 확보.
+5. **detect 도구 자체의 오탐 2건 확인**: (a) 5개 페이지에서 매번 다른 요소에 "text color
+   rgb(0,0,0)"이 뜨는 현상 — claude-in-chrome으로 실브라우저 렌더링을 3회 대조해 실제로는 항상
+   `--ink`(#2B2521) 색이 정상 적용됨을 확인, detect 자체 렌더 파이프라인의 버그로 판단.
+   (b) `claim-hub-prototype.html`의 `flat-type-hierarchy`가 화면에 안 보이는 `<title>`/
+   `<style>` 태그까지 "16px 본문"으로 잘못 집계. 사용자 확인 후 `.impeccable/config.json`에
+   false positive로 ignore 등록.
+   **다음 할 일**: KoPub World Batang 명조 폰트 실제 적용(폰트 파일 소싱 필요), `scripts/
+   build2.py`의 TEMPLATE이 `claim-hub-prototype.html`의 `<link rel="stylesheet">` 등
+   최근 변경과 어긋나 있어 다음에 `python3 scripts/build2.py` 재실행 시 byte-identical
+   여부 재확인 필요.
+
+같은 날 밤, 6차 세션 — 도메인 확정 + SEO 세팅:
+1. **서브도메인 확정**: `claim.zucca100.com` (zucca100 니치사이트 포트폴리오 하위). "insurance"가
+   아니라 "claim"을 접두어로 선택 — 이 서비스는 보험 판매·중개가 아니라 "청구 창구 안내"에만
+   집중하므로, "insurance"는 실제 범위보다 넓게 오인될 소지가 있음. `PRODUCT.md`에 근거 기록.
+2. **SEO 기술 세팅**: 5개 브랜드 페이지 전부 `<html lang="ko">`/`<head>`/`<body>` 명시적 구조로
+   전환(기존엔 `<html>` 태그 자체가 없어 브라우저 암시 삽입에 의존 — lang 속성 누락 상태였음),
+   canonical/OG(`og:site_name`="청구친구", `og:locale`=ko_KR)/Twitter 카드 메타 추가,
+   `claim-hub-prototype.html`엔 `WebSite` JSON-LD, `claim-guide.html`엔 FAQ 8개 그대로
+   `FAQPage` JSON-LD 구조화 데이터 추가. 루트 `robots.txt`(sitemap 참조, `report.html` disallow)
+   와 `sitemap.xml`(5개 브랜드 페이지, `report.html` 제외) 신설. `report.html`은 내부 전용
+   문서라 `<meta name="robots" content="noindex,nofollow">` 추가로 명시적으로 검색 노출 차단.
+   **다음 할 일**: OG 소셜 공유 이미지(실제 이미지 자산 없음, 디자인 작업 필요), Vercel 프로젝트에
+   `claim.zucca100.com` 도메인 연결 + DNS 레코드 설정(사용자가 Vercel 대시보드에서 직접 진행).

@@ -1,4 +1,10 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>애드센스 니치사이트 확장 전략 — 1차 분석 리포트</title>
+<meta name="robots" content="noindex, nofollow">
 <style>
   :root {
     color-scheme: light;
@@ -7,10 +13,10 @@
     --surface-2: #f3f2ee;
     --ink: #0b0b0b;
     --ink-2: #52514e;
-    --muted: #898781;
+    --muted: #676560;
     --line: #e1e0d9;
     --border: rgba(11,11,11,0.10);
-    --accent: #2a78d6;
+    --accent: #2160ac;
     --accent-soft: #cde2fb;
     --cat-1: #2a78d6;
     --cat-2: #eb6834;
@@ -21,51 +27,6 @@
     --critical-soft: #fbe4e3;
     --warning-soft: #fef3da;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:where(:not([data-theme="light"])) {
-      color-scheme: dark;
-      --page: #0d0d0d;
-      --surface: #1a1a19;
-      --surface-2: #202020;
-      --ink: #ffffff;
-      --ink-2: #c3c2b7;
-      --muted: #898781;
-      --line: #2c2c2a;
-      --border: rgba(255,255,255,0.10);
-      --accent: #3987e5;
-      --accent-soft: #16324f;
-      --cat-1: #3987e5;
-      --cat-2: #d95926;
-      --cat-3: #199e70;
-      --good: #0ca30c;
-      --warning: #fab219;
-      --critical: #e66767;
-      --critical-soft: #3a1f1e;
-      --warning-soft: #362c14;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --page: #0d0d0d;
-    --surface: #1a1a19;
-    --surface-2: #202020;
-    --ink: #ffffff;
-    --ink-2: #c3c2b7;
-    --muted: #898781;
-    --line: #2c2c2a;
-    --border: rgba(255,255,255,0.10);
-    --accent: #3987e5;
-    --accent-soft: #16324f;
-    --cat-1: #3987e5;
-    --cat-2: #d95926;
-    --cat-3: #199e70;
-    --good: #0ca30c;
-    --warning: #fab219;
-    --critical: #e66767;
-    --critical-soft: #3a1f1e;
-    --warning-soft: #362c14;
-  }
-
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -164,7 +125,7 @@
   }
 
   /* tables */
-  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); padding: 8px; }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -174,7 +135,7 @@
   }
   thead th {
     text-align: left;
-    font-size: 11.5px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--muted);
@@ -217,7 +178,7 @@
   .cmp-card .rpm { font-size: 21px; font-weight: 800; }
   .cmp-track { margin-top: 10px; background: var(--surface); border-radius: 5px; height: 8px; overflow: hidden; }
   .cmp-fill { height: 100%; border-radius: 5px; }
-  .cmp-card .foot { margin-top: 8px; font-size: 11.5px; color: var(--muted); }
+  .cmp-card .foot { margin-top: 8px; font-size: 12px; color: var(--muted); }
 
   /* traffic donut-ish stacked bar */
   .stack { display: flex; height: 26px; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); }
@@ -276,7 +237,7 @@
   .prio-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
   .prio-rpm { text-align: right; font-size: 13px; }
   .prio-rpm .v { font-weight: 800; font-size: 16px; }
-  .prio-rpm .l { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .prio-rpm .l { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 
   footer {
     margin-top: 56px;
@@ -292,6 +253,8 @@
     .bar-row { grid-template-columns: 108px 1fr 60px; }
   }
 </style>
+</head>
+<body>
 
 <div class="wrap">
 
@@ -515,3 +478,5 @@
   </footer>
 
 </div>
+</body>
+</html>

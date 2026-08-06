@@ -1,0 +1,52 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "cream-palette"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "report.html"
+        ],
+        "createdAt": "2026-08-06T06:29:04.893Z",
+        "reason": "report.html is an internal AdSense/SEO analytics doc, not part of the 청구친구 brand (user confirmed)"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "report.html"
+        ],
+        "createdAt": "2026-08-06T06:29:04.928Z",
+        "reason": "report.html is an internal AdSense/SEO analytics doc, not part of the 청구친구 brand (user confirmed)"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "report.html"
+        ],
+        "createdAt": "2026-08-06T06:29:04.962Z",
+        "reason": "report.html is an internal AdSense/SEO analytics doc, not part of the 청구친구 brand (user confirmed)"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgb(0, 0, 0)",
+        "createdAt": "2026-08-06T06:50:21.075Z",
+        "reason": "Confirmed false positive: detect's own headless renderer misreads a shifting element's text color as pure black on every page (header link, then random h2/div after unrelated edits). Verified 3x via live Chrome (claude-in-chrome) that the real computed color is always rgb(43,37,33) = --ink, matching DESIGN.md. User confirmed 2026-08-06."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "claim-hub-prototype.html"
+        ],
+        "createdAt": "2026-08-06T06:50:21.110Z",
+        "reason": "Confirmed false positive: the reported size set includes 16px from the invisible <title>/<style> tags in <head>, which the rule doesn't filter out. Real visible sizes form a clean 12/14/18/22px ramp. User confirmed 2026-08-06."
+      }
+    ]
+  }
+}

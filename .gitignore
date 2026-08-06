@@ -1,2 +1,9 @@
 __pycache__/
 *.pyc
+
+# Claude Code / Impeccable skill: machine-local, not project source
+.claude/settings.local.json
+.claude/skills/
+skills-lock.json
+.impeccable/config.local.json
+.impeccable/hook.cache.json

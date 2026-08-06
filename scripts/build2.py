@@ -5,7 +5,8 @@ from font_b64 import regular, semibold, bold, extrabold
 
 TEMPLATE = r"""<!DOCTYPE html>
 <meta charset="utf-8">
-<title>보험금 청구 바로가기 모음 | 청구창구</title>
+<title>실비보험 청구방법 · 보험사별 보험금 청구 바로가기 38곳 | 청구친구</title>
+<meta name="description" content="삼성생명·현대해상 등 38개 보험사의 보험금 청구 페이지 바로가기 모음. 실손(실비)보험 청구방법, 필요서류, 처리기간, 소멸시효까지 한 번에 확인하세요.">
 <style>
   @font-face {
     font-family: 'Pretendard';
@@ -244,6 +245,35 @@ TEMPLATE = r"""<!DOCTYPE html>
   .notice li { margin-bottom: 8px; }
   .notice li:last-child { margin-bottom: 0; }
 
+  /* ---- claim guide section ---- */
+  .guide-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .guide-step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 14px; }
+  .guide-step-num {
+    width: 24px; height: 24px; border-radius: 999px; background: var(--accent-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-bottom: 10px;
+  }
+  .guide-step h3 { font-size: 13.5px; font-weight: 800; margin: 0 0 6px; color: var(--ink); }
+  .guide-step p { font-size: 12.5px; color: var(--ink-2); margin: 0; line-height: 1.6; }
+
+  .guide-meta { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .guide-stat { flex: 1; min-width: 140px; background: var(--surface-2); border-radius: 12px; padding: 14px 16px; }
+  .guide-stat b { display: block; font-size: 18px; color: var(--accent); margin-bottom: 2px; }
+  .guide-stat span { font-size: 12px; color: var(--ink-2); }
+
+  .guide-docs { margin-top: 14px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .guide-docs table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .guide-docs th, .guide-docs td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); }
+  .guide-docs thead th { background: var(--surface-2); color: var(--ink-2); font-weight: 700; border-top: none; }
+  .guide-docs tbody th { color: var(--ink); font-weight: 700; white-space: nowrap; }
+  .guide-docs td { color: var(--ink-2); }
+
+  .guide-note { font-size: 12.5px; color: var(--muted); text-align: center; margin: 14px 0 0; }
+  .guide-cta { margin-top: 14px; text-align: center; }
+  .guide-cta a {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: var(--accent-ink);
+    font-weight: 700; font-size: 13.5px; padding: 11px 20px; border-radius: 999px; text-decoration: none;
+  }
+
   footer { border-top: 1px solid var(--line); }
   .footer-inner { max-width: 1080px; margin: 0 auto; padding: 36px 24px; }
   .footer-brand { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 15px; margin-bottom: 8px; }
@@ -257,10 +287,12 @@ TEMPLATE = r"""<!DOCTYPE html>
     .co-grid { grid-template-columns: repeat(2, 1fr); }
     nav.site-nav { display: none; }
     .hero-top { flex-direction: column; }
+    .guide-steps { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 560px) {
     .co-grid { grid-template-columns: 1fr; }
     h1.hero-title { font-size: 22px; }
+    .guide-steps { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -269,11 +301,13 @@ TEMPLATE = r"""<!DOCTYPE html>
     <span class="mark">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5v6c0 5.2 3.4 9.6 8 11 4.6-1.4 8-5.8 8-11V5l-8-3z" fill="currentColor" opacity="0.95"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8" stroke="var(--surface)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </span>
-    청구창구
+    청구친구
   </div>
   <nav class="site-nav">
+    <a href="#guide">청구방법</a>
     <a href="#life">생명보험</a>
     <a href="#nonlife">손해보험</a>
+    <a href="#silson24">실손24</a>
     <a href="#notice">안내</a>
     <a href="#disclaimer">면책조항</a>
   </nav>
@@ -282,7 +316,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-top">
-      <h1 class="hero-title">보험사 이름만 알면,<br><span class="accent">청구창구</span>에서 바로.</h1>
+      <h1 class="hero-title">보험사 이름만 알면,<br><span class="accent">청구친구</span>에서 바로.</h1>
       <span class="kicker">✦ 공식 페이지로만 연결</span>
     </div>
     <p class="hero-sub">38개 보험사의 청구 창구를 한곳에 모았어요. 검색하고 눌러서 공식 페이지로 이동하세요.</p>
@@ -311,8 +345,69 @@ TEMPLATE = r"""<!DOCTYPE html>
         <button class="seg-btn is-active" onclick="setCategory('all', this)">전체 <span class="c num">38</span></button>
         <button class="seg-btn" onclick="setCategory('life', this)">생명보험 <span class="c num">22</span></button>
         <button class="seg-btn" onclick="setCategory('non-life', this)">손해보험 <span class="c num">16</span></button>
-        <button class="seg-btn" onclick="setCategory('direct', this)">바로 청구 가능 <span class="c num">8</span></button>
+        <button class="seg-btn" onclick="setCategory('direct', this)">바로 청구 가능 <span class="c num">34</span></button>
       </div>
+    </div>
+  </section>
+
+  <section id="guide">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">How to claim</div>
+        <h2>실비보험 청구방법, 5단계로 끝내기</h2>
+      </div>
+    </div>
+
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <h3>진료·치료 받기</h3>
+        <p>병원·약국에서 치료받고 진료비 영수증, 처방전(약 처방 시)을 꼭 챙겨두세요.</p>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <h3>서류 준비하기</h3>
+        <p>치료비가 10만 원 이하면 영수증·처방전만으로 충분한 경우가 많아요. 초과 시 진단서가 추가로 필요해요.</p>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <h3>접수 채널 선택</h3>
+        <p>실손24 연계 병원이면 병원에서 바로 전송돼요. 아니라면 가입한 보험사의 앱·홈페이지·팩스로 접수하세요.</p>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">4</div>
+        <h3>심사 진행</h3>
+        <p>보험사가 제출 서류를 확인하고 심사해요. 서류가 부족하면 추가 요청이 올 수 있어요.</p>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">5</div>
+        <h3>보험금 지급</h3>
+        <p>서류가 갖춰지면 3영업일 이내 지급이 원칙이에요. 조사가 필요하면 최대 30영업일까지 걸릴 수 있어요.</p>
+      </div>
+    </div>
+
+    <div class="guide-meta">
+      <div class="guide-stat"><b>3영업일</b><span>서류 완비 시 표준 지급 기한</span></div>
+      <div class="guide-stat"><b>최대 30영업일</b><span>조사·심사가 필요한 경우</span></div>
+      <div class="guide-stat"><b>3년</b><span>보험금 청구권 소멸시효(사고일 기준)</span></div>
+    </div>
+
+    <div class="guide-docs">
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>청구 유형</th><th>10만 원 이하</th><th>10만 원 초과</th></tr></thead>
+          <tbody>
+            <tr><th>통원(외래)</th><td>진료비 영수증 + 처방전(약제비 영수증)</td><td>위 서류 + 진단서 또는 진료확인서</td></tr>
+            <tr><th>입원</th><td>입퇴원확인서 + 진료비 계산서·영수증</td><td>위 서류 + 진단서(수술 시 수술확인서 추가)</td></tr>
+            <tr><th>공통</th><td colspan="2">보험사 소정 청구서 양식, 신분증 사본, 보험금 수령 계좌 사본</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="guide-note">정확한 서류·기준은 가입한 상품과 보험사 약관마다 달라요. 아래에서 가입한 보험사를 찾아 공식 안내를 확인하세요.</p>
+    <div class="guide-cta">
+      <a href="#life">가입한 보험사 찾아 바로 접수하기 →</a>
     </div>
   </section>
 
@@ -338,6 +433,26 @@ TEMPLATE = r"""<!DOCTYPE html>
       <details class="faq-row">
         <summary>여러 보험사에 가입돼 있으면 한 번에 청구할 수 없나요?</summary>
         <p class="faq-a"><b>청구는 가입한 보험사마다 각각 진행</b>해야 해요. 통합 조회 서비스가 있어도 최종 접수는 보험사별 창구를 거쳐야 해서, 한곳에 모아둔 바로가기가 더 유용해요.</p>
+      </details>
+
+      <details class="faq-row">
+        <summary>실비(실손의료비) 청구할 때 필요한 서류가 뭔가요?</summary>
+        <p class="faq-a">일반적으로 <b>진단서(또는 진료확인서)·진료비 계산서·영수증·처방전(약제비 영수증)</b>이 필요해요. 통원 치료비가 <b>10만 원 이하</b>면 대부분 보험사가 진단서 없이 영수증·처방전만으로도 접수해줘서, 굳이 발급비를 들여 진단서를 뗄 필요가 없는 경우가 많아요.</p>
+      </details>
+
+      <details class="faq-row">
+        <summary>보험금은 청구 후 며칠 만에 들어오나요?</summary>
+        <p class="faq-a">표준약관 기준으로 서류가 갖춰지면 <b>3영업일 이내</b> 지급이 원칙이에요. 다만 사고 조사나 심사가 필요한 경우엔 최대 30영업일까지 늦어질 수 있어요.</p>
+      </details>
+
+      <details class="faq-row">
+        <summary>실손24로 청구하면 되지 않나요? 여긴 왜 필요해요?</summary>
+        <p class="faq-a"><b>실손24</b>는 병원이 진료 내역을 보험사로 바로 전송해주는 간편청구 서비스지만, 아직 <b>연계된 병원·약국이 전체의 약 1/4 수준</b>이라 다니는 병원이 연계돼 있지 않으면 이용할 수 없어요. 그럴 땐 보험사 홈페이지·앱으로 직접 청구해야 하는데, 청구친구는 그 창구를 빠르게 찾아드려요. 자세한 건 아래 <a href="#silson24">실손24 안내</a>를 확인하세요.</p>
+      </details>
+
+      <details class="faq-row">
+        <summary>자동차보험 사고는 어디서 접수하나요?</summary>
+        <p class="faq-a">자동차보험은 별도 전문 보험사가 따로 있지 않고, <b>가입한 손해보험사의 사고접수 채널</b>(다이렉트 앱·홈페이지·고객센터)로 접수해요. 아래 손해보험사 목록에서 가입한 회사를 찾아 이동하면 돼요.</p>
       </details>
 
     </div>
@@ -377,33 +492,33 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="NH농협생명" data-cat="life" data-level="home" href="https://www.nhlife.co.kr">
+      <a class="co-card" data-name="NH농협생명" data-cat="life" data-level="direct" href="https://www.nhlife.co.kr/ho/cc/HOCC0042M00.nhl">
         <span class="co-badge">NH</span>
-        <span class="co-name-col"><span class="co-name">NH농협생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">NH농협생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="ABL생명" data-cat="life" data-level="home" href="https://www.abllife.co.kr">
+      <a class="co-card" data-name="ABL생명" data-cat="life" data-level="direct" href="https://www.abllife.co.kr/st/custDesk/insSrvcGudn/acdtInsmClamGudn/acdtInsmClamGudn1?page=index">
         <span class="co-badge">AB</span>
-        <span class="co-name-col"><span class="co-name">ABL생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">ABL생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="흥국생명" data-cat="life" data-level="home" href="https://www.heungkuklife.co.kr">
+      <a class="co-card" data-name="흥국생명" data-cat="life" data-level="direct" href="https://www.heungkuklife.co.kr/cyber/accident/Accident_File_Info.do">
         <span class="co-badge">흥</span>
-        <span class="co-name-col"><span class="co-name">흥국생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">흥국생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="iM라이프생명" data-cat="life" data-level="home" href="https://www.imlifeins.co.kr">
+      <a class="co-card" data-name="iM라이프생명" data-cat="life" data-level="direct" href="https://www.imlifeins.co.kr/BB/BB_D010.do">
         <span class="co-badge">iM</span>
-        <span class="co-name-col"><span class="co-name">iM라이프생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">iM라이프생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="미래에셋생명" data-cat="life" data-level="home" href="https://life.miraeasset.com">
+      <a class="co-card" data-name="미래에셋생명" data-cat="life" data-level="direct" href="https://life.miraeasset.com/Cmmn/lifePage.do?cp=MNT-IS-204">
         <span class="co-badge">미</span>
-        <span class="co-name-col"><span class="co-name">미래에셋생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">미래에셋생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -413,45 +528,45 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="DB생명" data-cat="life" data-level="home" href="https://www.idblife.com">
+      <a class="co-card" data-name="DB생명" data-cat="life" data-level="direct" href="https://www.idblife.com/support/guide/acbf_clm">
         <span class="co-badge">DB</span>
-        <span class="co-name-col"><span class="co-name">DB생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">DB생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="동양생명" data-cat="life" data-level="home" href="https://www.myangel.co.kr">
+      <a class="co-card" data-name="동양생명" data-cat="life" data-level="direct" href="https://www.myangel.co.kr/customer/service/propose/WE_CR_PS_04_05_00.jsp">
         <span class="co-badge">동</span>
-        <span class="co-name-col"><span class="co-name">동양생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">동양생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="메트라이프생명" data-cat="life" data-level="home" href="https://www.metlife.co.kr">
+      <a class="co-card" data-name="메트라이프생명" data-cat="life" data-level="direct" href="https://cyber.metlife.co.kr/claim/billNotice">
         <span class="co-badge">메</span>
-        <span class="co-name-col"><span class="co-name">메트라이프생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">메트라이프생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="KB라이프생명" data-cat="life" data-level="home" href="https://www.kblife.co.kr">
+      <a class="co-card" data-name="KB라이프생명" data-cat="life" data-level="direct" href="https://www.kblife.co.kr/customer-center/benefitClaimMethod.do">
         <span class="co-badge">KB</span>
-        <span class="co-name-col"><span class="co-name">KB라이프생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">KB라이프생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="처브라이프생명" data-cat="life" data-level="home" href="https://www.chubblife.co.kr">
+      <a class="co-card" data-name="처브라이프생명" data-cat="life" data-level="direct" href="https://www.chubblife.co.kr/front/ctmcenter/insurance/list.do">
         <span class="co-badge">처</span>
-        <span class="co-name-col"><span class="co-name">처브라이프생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">처브라이프생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="하나생명" data-cat="life" data-level="home" href="https://www.hanalife.co.kr">
+      <a class="co-card" data-name="하나생명" data-cat="life" data-level="direct" href="https://www.hanalife.co.kr/csc/accidentInsuranceGuide/accidentInsurancePaymentGuide_1.do">
         <span class="co-badge">하</span>
-        <span class="co-name-col"><span class="co-name">하나생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">하나생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="BNP파리바카디프생명" data-cat="life" data-level="home" href="https://www.cardif.co.kr">
+      <a class="co-card" data-name="BNP파리바카디프생명" data-cat="life" data-level="direct" href="https://www.cardif.co.kr/customer-center/보험금-청구.do">
         <span class="co-badge">BN</span>
-        <span class="co-name-col"><span class="co-name">BNP파리바카디프생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">BNP파리바카디프생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -461,15 +576,15 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="라이나생명" data-cat="life" data-level="home" href="https://www.lina.co.kr">
+      <a class="co-card" data-name="라이나생명" data-cat="life" data-level="direct" href="https://m.lina.co.kr/ko/wss/claim/claim_receipt.htm">
         <span class="co-badge">라</span>
-        <span class="co-name-col"><span class="co-name">라이나생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">라이나생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="AIA생명" data-cat="life" data-level="home" href="https://www.aia.co.kr">
+      <a class="co-card" data-name="AIA생명" data-cat="life" data-level="direct" href="https://www.aia.co.kr/ko/customer-support/customer-guide/insurance-guide/insurance-payment-procedure.html">
         <span class="co-badge">AI</span>
-        <span class="co-name-col"><span class="co-name">AIA생명</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">AIA생명</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -479,9 +594,9 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card" data-name="교보라이프플래닛" data-cat="life" data-level="home" href="https://www.lifeplanet.co.kr">
+      <a class="co-card" data-name="교보라이프플래닛" data-cat="life" data-level="direct" href="https://www.lifeplanet.co.kr/contact/pet/HPCG31S2.dev">
         <span class="co-badge">플</span>
-        <span class="co-name-col"><span class="co-name">교보라이프플래닛</span><span class="co-tag">생명보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">교보라이프플래닛</span><span class="co-tag">생명보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -516,27 +631,27 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="DB손해보험" data-cat="non-life" data-level="home" href="https://www.idbins.com">
+      <a class="co-card non-life" data-name="DB손해보험" data-cat="non-life" data-level="direct" href="https://www.idbins.com/pc/bizxpress/ask/ia/FWCLAV1118.shtm">
         <span class="co-badge">DB</span>
-        <span class="co-name-col"><span class="co-name">DB손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">DB손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="KB손해보험" data-cat="non-life" data-level="home" href="https://www.kbinsure.co.kr">
+      <a class="co-card non-life" data-name="KB손해보험" data-cat="non-life" data-level="direct" href="https://www.kbinsure.co.kr/CG205010004.ec">
         <span class="co-badge">KB</span>
-        <span class="co-name-col"><span class="co-name">KB손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">KB손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="한화손해보험" data-cat="non-life" data-level="home" href="https://www.hwgeneralins.com">
+      <a class="co-card non-life" data-name="한화손해보험" data-cat="non-life" data-level="direct" href="https://www.hwgeneralins.com/fplaza/compensation/charge00.do">
         <span class="co-badge">한</span>
-        <span class="co-name-col"><span class="co-name">한화손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">한화손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="흥국화재" data-cat="non-life" data-level="home" href="https://www.heungkukfire.co.kr">
+      <a class="co-card non-life" data-name="흥국화재" data-cat="non-life" data-level="direct" href="https://www.heungkukfire.co.kr/FRW/compensation/accidentInfo.do">
         <span class="co-badge">흥</span>
-        <span class="co-name-col"><span class="co-name">흥국화재</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">흥국화재</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -546,27 +661,27 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="AXA손해보험" data-cat="non-life" data-level="home" href="https://www.axakorea.co.kr">
+      <a class="co-card non-life" data-name="AXA손해보험" data-cat="non-life" data-level="direct" href="https://www.axa.co.kr/cui/cmk/cl/CMKCLL07M01.html">
         <span class="co-badge">AX</span>
-        <span class="co-name-col"><span class="co-name">AXA손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">AXA손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="AIG손해보험" data-cat="non-life" data-level="home" href="https://www.aig.co.kr">
+      <a class="co-card non-life" data-name="AIG손해보험" data-cat="non-life" data-level="direct" href="https://www.aig.co.kr/wt/dpwtm025.html?menuId=MS216">
         <span class="co-badge">AI</span>
-        <span class="co-name-col"><span class="co-name">AIG손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">AIG손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="캐롯손해보험" data-cat="non-life" data-level="home" href="https://www.carrotins.com">
+      <a class="co-card non-life" data-name="캐롯손해보험" data-cat="non-life" data-level="direct" href="https://www.carrotins.com/desktop/reward/claim/apply/">
         <span class="co-badge">캐</span>
-        <span class="co-name-col"><span class="co-name">캐롯손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">캐롯손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="NH농협손해보험" data-cat="non-life" data-level="home" href="https://www.nhfire.co.kr">
+      <a class="co-card non-life" data-name="NH농협손해보험" data-cat="non-life" data-level="direct" href="https://www.nhfire.co.kr/customer/guide/insuranceClaimGuide.nhfire">
         <span class="co-badge">NH</span>
-        <span class="co-name-col"><span class="co-name">NH농협손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">NH농협손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -576,21 +691,21 @@ TEMPLATE = r"""<!DOCTYPE html>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="하나손해보험" data-cat="non-life" data-level="home" href="https://www.hanainsure.co.kr">
+      <a class="co-card non-life" data-name="하나손해보험" data-cat="non-life" data-level="direct" href="https://www.hanainsure.co.kr/w/claim/healthReward/accidentReceipt">
         <span class="co-badge">하</span>
-        <span class="co-name-col"><span class="co-name">하나손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">하나손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="카카오페이손해보험" data-cat="non-life" data-level="home" href="https://kakaopayinscorp.co.kr">
+      <a class="co-card non-life" data-name="카카오페이손해보험" data-cat="non-life" data-level="direct" href="https://kakaopayinscorp.co.kr/customer-center/claim-info">
         <span class="co-badge">카</span>
-        <span class="co-name-col"><span class="co-name">카카오페이손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">카카오페이손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
-      <a class="co-card non-life" data-name="신한EZ손해보험" data-cat="non-life" data-level="home" href="https://www.shinhanez.co.kr">
+      <a class="co-card non-life" data-name="신한EZ손해보험" data-cat="non-life" data-level="direct" href="https://www.shinhanez.co.kr/static/cus/CUS50000M01.html?docInfoYn=Y">
         <span class="co-badge">신</span>
-        <span class="co-name-col"><span class="co-name">신한EZ손해보험</span><span class="co-tag">손해보험 · 홈페이지</span></span>
+        <span class="co-name-col"><span class="co-name">신한EZ손해보험</span><span class="co-tag">손해보험</span></span>
         <span class="co-arrow">→</span>
       </a>
 
@@ -598,9 +713,23 @@ TEMPLATE = r"""<!DOCTYPE html>
     <p class="empty-state" id="emptyState">검색 결과가 없습니다. 보험사명을 다시 확인해주세요.</p>
   </section>
 
+  <section id="silson24">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Before you claim</div>
+        <h2>실손24, 먼저 시도해보세요</h2>
+      </div>
+    </div>
+    <div class="notice">
+      <p><b>실손24</b>는 보험업계·병원이 공동으로 운영하는 실손의료보험금 <b>간편청구 서비스</b>예요. 다녔던 병원이 연계돼 있으면 서류를 직접 챙길 필요 없이 병원이 진료 내역을 보험사로 바로 전송해줘서 앱·홈페이지 몇 번 클릭으로 청구가 끝나요.</p>
+      <p style="margin-top:8px">다만 아직 <b>연계 병원·약국이 전체의 약 1/4 수준</b>이라, 다니는 곳이 연계돼 있지 않으면 이용할 수 없어요. 그럴 땐 아래에서 가입한 보험사를 찾아 직접 청구 페이지로 이동하세요 — 청구친구가 그 다음 단계예요.</p>
+      <p style="margin-top:8px"><a href="https://www.silson24.or.kr" style="color:var(--accent);font-weight:600">실손24 홈페이지 바로가기 →</a></p>
+    </div>
+  </section>
+
   <section id="notice">
     <div class="notice">
-      <b>3차 검증 예정:</b> "홈페이지 바로가기"로 표시된 회사는 공식 최상위 도메인만 확인된 상태이며, 보험금 청구 전용 서브페이지를 확인하는 대로 순차적으로 교체합니다. (참고: MG손해보험은 2026년 파산 절차로 계약이 삼성화재·현대해상·DB손보·KB손보·메리츠화재 5개사로 이전되어 제외했고, 코리안리 등 재보험사는 소비자가 직접 청구할 대상이 아니라 제외했습니다.)
+      <b>딥링크 검증 현황:</b> 38개사 중 34개사는 실제 보험금 청구 안내/신청 서브페이지를 확인해 연결했습니다. KDB생명·푸본현대생명·IBK연금보험·롯데손해보험 4곳은 로그인 경유 또는 공개 딥링크 미확인으로 홈페이지 링크를 유지 중이며, 확인되는 대로 순차적으로 교체합니다. (참고: MG손해보험은 2026년 파산 절차로 계약이 삼성화재·현대해상·DB손보·KB손보·메리츠화재 5개사로 이전되어 제외했고, 코리안리 등 재보험사는 소비자가 직접 청구할 대상이 아니라 제외했습니다.)
     </div>
   </section>
 
@@ -630,10 +759,10 @@ TEMPLATE = r"""<!DOCTYPE html>
       <span class="mark">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5v6c0 5.2 3.4 9.6 8 11 4.6-1.4 8-5.8 8-11V5l-8-3z" fill="currentColor"/></svg>
       </span>
-      청구창구
+      청구친구
     </div>
     <p>보험사 공식 페이지로만 연결하는 링크 모음. 새 탭 없이 클릭 즉시 이동합니다.</p>
-    <p>© 2026 청구창구 · 청구 절차는 보험사 공식 안내 기준으로 확인하세요.</p>
+    <p>© 2026 청구친구 · 청구 절차는 보험사 공식 안내 기준으로 확인하세요.</p>
   </div>
 </footer>
 
