@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="naver-site-verification" content="beaaa16431b09ac37233776ea67039a935b03b20">
 <title>실비보험 청구방법 · 보험사별 보험금 청구 바로가기 38곳 | 청구친구</title>
 <meta name="description" content="삼성생명·현대해상 등 38개 보험사의 보험금 청구 페이지 바로가기 모음. 실손(실비)보험 청구방법, 필요서류, 처리기간, 소멸시효까지 한 번에 확인하세요.">
 <link rel="canonical" href="https://claim.zucca100.com/">
@@ -65,9 +66,9 @@
     </div>
     <p class="hero-sub">38개 보험사의 청구 창구를 한곳에 모았어요. 검색하고 눌러서 공식 페이지로 이동하세요.</p>
     <div class="hero-controls">
-      <form class="search-bar" onsubmit="return false;">
+      <form class="search-bar" onsubmit="submitSearch(); return false;">
         <input id="searchInput" type="text" placeholder="보험사명을 입력하세요 (예: 삼성화재, 교보생명)" oninput="filterCompanies()">
-        <button type="button" onclick="document.getElementById('searchInput').focus()">검색</button>
+        <button type="submit">검색</button>
       </form>
       <div class="chips">
         <span class="chip" onclick="setSearch('삼성')">삼성</span>
@@ -77,6 +78,7 @@
         <span class="chip" onclick="setSearch('KB')">KB손해보험</span>
       </div>
     </div>
+    <p class="search-status" id="searchStatus" aria-live="polite" hidden></p>
   </div>
 </div>
 
@@ -84,7 +86,7 @@
 
 <main>
 
-  <section>
+  <section id="results">
     <div class="section-head">
       <h2>어떤 보험 청구가 필요하세요?</h2>
       <div class="segmented">
@@ -96,13 +98,13 @@
     </div>
   </section>
 
-  <section>
+  <section id="life-section">
     <div class="section-head">
       <div>
         <div class="eyebrow">Life Insurance</div>
         <h2 id="life">생명보험사</h2>
       </div>
-      <div class="section-count">22개</div>
+      <div class="section-count" id="lifeCount">22개</div>
     </div>
     <div class="co-grid" data-group="life">
 
@@ -241,13 +243,13 @@
     </div>
   </section>
 
-  <section>
+  <section id="nonlife-section">
     <div class="section-head">
       <div>
         <div class="eyebrow">Non-Life Insurance</div>
         <h2 id="nonlife">손해보험사</h2>
       </div>
-      <div class="section-count">16개</div>
+      <div class="section-count" id="nonlifeCount">16개</div>
     </div>
     <div class="co-grid" data-group="non-life">
 
@@ -385,6 +387,7 @@ window.__activeCat = 'all';
     var q = document.getElementById('searchInput').value.trim().toLowerCase();
     var cards = document.querySelectorAll('.co-card');
     var visible = 0;
+    var groupVisible = { life: 0, 'non-life': 0 };
     cards.forEach(function (card) {
       var name = card.getAttribute('data-name').toLowerCase();
       var catOk = window.__activeCat === 'all' ||
@@ -392,13 +395,38 @@ window.__activeCat = 'all';
       var nameOk = name.indexOf(q) !== -1;
       var show = catOk && nameOk;
       card.hidden = !show;
-      if (show) visible++;
+      if (show) {
+        visible++;
+        groupVisible[card.getAttribute('data-cat')]++;
+      }
     });
+
+    document.getElementById('lifeCount').textContent = groupVisible.life + '개';
+    document.getElementById('nonlifeCount').textContent = groupVisible['non-life'] + '개';
+    document.getElementById('life-section').hidden = groupVisible.life === 0;
+    document.getElementById('nonlife-section').hidden = groupVisible['non-life'] === 0;
     document.getElementById('emptyState').className = visible === 0 ? 'empty-state show' : 'empty-state';
+
+    var status = document.getElementById('searchStatus');
+    if (q) {
+      status.hidden = false;
+      status.textContent = visible === 0
+        ? '‘' + q + '’에 대한 검색결과가 없어요.'
+        : '‘' + q + '’에 대한 검색결과 ' + visible + '건';
+    } else {
+      status.hidden = true;
+      status.textContent = '';
+    }
+    return visible;
+  }
+  function submitSearch() {
+    filterCompanies();
+    var target = document.getElementById('results');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   function setSearch(v) {
     document.getElementById('searchInput').value = v;
-    filterCompanies();
+    submitSearch();
   }
   function setCategory(cat, btn) {
     window.__activeCat = cat;

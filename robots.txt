@@ -3,3 +3,5 @@ Allow: /
 Disallow: /report.html
 
 Sitemap: https://claim.zucca100.com/sitemap.xml
+
+#DaumWebMasterTool:66c365daf8f9c4d32692b3ca8ead2bd04a994ae3353dedfe88b9cc6e1266b3e3:N5hchembM/2H2Yn86emisA==
