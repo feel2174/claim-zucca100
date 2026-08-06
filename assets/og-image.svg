@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <clipPath id="canvas"><rect width="1200" height="630"/></clipPath>
+  </defs>
+  <g clip-path="url(#canvas)">
+    <rect width="1200" height="630" fill="#FAF6F0"/>
+
+    <!-- decorative seal-stamp ring, echoes brand's official-seal motif -->
+    <g transform="translate(1040,150) rotate(-14)" opacity="0.14">
+      <circle r="230" fill="none" stroke="#B3452E" stroke-width="10"/>
+      <circle r="196" fill="none" stroke="#B3452E" stroke-width="3"/>
+    </g>
+
+    <!-- shield-check mark -->
+    <g transform="translate(96,150)">
+      <path d="M60 0L4 24v46c0 40.4 25.6 73.4 56 84 30.4-10.6 56-43.6 56-84V24L60 0z" fill="#B3452E"/>
+      <path d="M35.5 71l19 19 35.5-37" stroke="#FAF6F0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- wordmark -->
+    <text x="232" y="238" font-family="'Batang','Noto Serif KR',serif" font-size="72" font-weight="700" fill="#2B2521">청구친구</text>
+
+    <!-- accent rule (one-stamp rule: single red accent) -->
+    <rect x="234" y="264" width="96" height="6" fill="#B3452E"/>
+
+    <!-- headline -->
+    <text x="96" y="360" font-family="'Batang','Noto Serif KR',serif" font-size="46" font-weight="700" fill="#2B2521">보험금 청구, 공식 창구로 바로</text>
+
+    <!-- tagline -->
+    <text x="96" y="418" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="29" font-weight="400" fill="#5B524B">생명보험 22개사 · 손해보험 16개사, 보험금 청구 바로가기 38곳</text>
+    <text x="96" y="460" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="29" font-weight="400" fill="#5B524B">실손의료비부터 사망보험금·자동차·화재보험 청구까지 한 번에</text>
+
+    <!-- domain label -->
+    <text x="96" y="546" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="22" font-weight="700" letter-spacing="1" fill="#706861">CLAIM.ZUCCA100.COM</text>
+  </g>
+</svg>
