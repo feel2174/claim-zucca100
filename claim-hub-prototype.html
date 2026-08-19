@@ -38,6 +38,48 @@
   "inLanguage": "ko-KR"
 }
 </script>
+<script>
+(function () {
+    var PUBLISHER_ID = 'zucca-network';
+    var PAGE_TYPE    = 'article';
+
+    var LOADER_URL         = '//cdn.taboola.com/libtrc/'       + PUBLISHER_ID + '/loader.js';
+    var LOADER_PRIVACY_URL = '//static.tblcontent.com/libtrc/' + PUBLISHER_ID + '/loader.privacy.js';
+    var PIXEL_URL          = 'https://static.qovani.com/libtrc/tr5?type=pixel&publisher=' + PUBLISHER_ID;
+    var SCRIPT_ID          = 'tb_loader_script';
+
+    window._taboola = window._taboola || [];
+
+    var pageTypePush = {};
+    pageTypePush[PAGE_TYPE] = 'auto';
+    _taboola.push(pageTypePush);
+
+    new Image().src = PIXEL_URL;
+
+    var firstScript = document.getElementsByTagName('script')[0];
+
+    function injectLoader(id, src, fallbackSrc) {
+        if (document.getElementById(id)) return;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src   = src;
+        s.id    = id;
+        if (fallbackSrc) {
+            s.onerror = function () {
+                if (s.parentNode) s.parentNode.removeChild(s);
+                injectLoader(SCRIPT_ID + '_fb', fallbackSrc, null);
+            };
+        }
+        firstScript.parentNode.insertBefore(s, firstScript);
+    }
+
+    injectLoader(SCRIPT_ID, LOADER_URL, LOADER_PRIVACY_URL);
+
+    if (window.performance && typeof window.performance.mark === 'function') {
+        window.performance.mark('tbl_ic');
+    }
+})();
+</script>
 </head>
 <body>
 
@@ -294,6 +336,12 @@
         <span class="co-arrow">→</span>
       </a>
 
+      <a class="co-card non-life" data-name="KD손해보험" data-cat="non-life" data-level="direct" href="https://www.kbinsure.co.kr/CG205010004.ec">
+        <span class="co-badge">KD</span>
+        <span class="co-name-col"><span class="co-name">KD손해보험</span><span class="co-tag">손해보험 · KB손해보험 바로가기</span></span>
+        <span class="co-arrow">→</span>
+      </a>
+
       <a class="co-card non-life" data-name="한화손해보험" data-cat="non-life" data-level="direct" href="https://www.hwgeneralins.com/fplaza/compensation/charge00.do">
         <span class="co-badge">한</span>
         <span class="co-name-col"><span class="co-name">한화손해보험</span><span class="co-tag">손해보험</span></span>
@@ -447,5 +495,19 @@ window.__activeCat = 'all';
   }
 </script>
   <script defer src="/_vercel/insights/script.js"></script>
+<div id="taboola-right-rail-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({mode:'thumbnails-rr',container:'taboola-right-rail-thumbnails',placement:'Right Rail Thumbnails',target_type:'mix'});
+</script>
+<div id="taboola-below-article-thumbnails"></div>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({mode:'alternating-thumbnails-a',container:'taboola-below-article-thumbnails',placement:'Below Article Thumbnails',target_type:'mix'});
+</script>
+<script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script>
 </body>
 </html>
