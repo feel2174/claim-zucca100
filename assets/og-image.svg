@@ -1,36 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1260" viewBox="0 0 1200 630">
   <defs>
     <clipPath id="canvas"><rect width="1200" height="630"/></clipPath>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#FCF9F4"/>
+      <stop offset="0.55" stop-color="#FAF6F0"/>
+      <stop offset="1" stop-color="#F3E9DC"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.86" cy="0.22" r="0.5">
+      <stop offset="0" stop-color="#B3452E" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#B3452E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C6543C"/>
+      <stop offset="1" stop-color="#A63C28"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#7A2E1E" flood-opacity="0.28"/>
+    </filter>
   </defs>
+
   <g clip-path="url(#canvas)">
-    <rect width="1200" height="630" fill="#FAF6F0"/>
+    <rect width="1200" height="630" fill="url(#bg)"/>
+    <rect width="1200" height="630" fill="url(#glow)"/>
 
     <!-- decorative seal-stamp ring, echoes brand's official-seal motif -->
-    <g transform="translate(1040,150) rotate(-14)" opacity="0.14">
-      <circle r="230" fill="none" stroke="#B3452E" stroke-width="10"/>
-      <circle r="196" fill="none" stroke="#B3452E" stroke-width="3"/>
+    <g transform="translate(1044,168) rotate(-14)" opacity="0.16">
+      <circle r="248" fill="none" stroke="#B3452E" stroke-width="10"/>
+      <circle r="210" fill="none" stroke="#B3452E" stroke-width="2.5"/>
+      <circle r="150" fill="none" stroke="#B3452E" stroke-width="1.5" stroke-dasharray="2 12"/>
     </g>
 
-    <!-- shield-check mark -->
-    <g transform="translate(96,150)">
-      <path d="M60 0L4 24v46c0 40.4 25.6 73.4 56 84 30.4-10.6 56-43.6 56-84V24L60 0z" fill="#B3452E"/>
-      <path d="M35.5 71l19 19 35.5-37" stroke="#FAF6F0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- shield-check tile with soft depth -->
+    <g transform="translate(96,132)" filter="url(#soft)">
+      <rect x="-16" y="-8" width="152" height="152" rx="34" fill="url(#tile)"/>
+      <rect x="-16" y="-8" width="152" height="76" rx="34" fill="#ffffff" opacity="0.12"/>
+      <g transform="translate(28,20)">
+        <path d="M32 0L4 12v22c0 20.2 12.8 36.7 28 42 15.2-5.3 28-21.8 28-42V12L32 0z" fill="#FAF6F0"/>
+        <path d="M19 35l10 10 19-20" stroke="#B3452E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </g>
     </g>
 
     <!-- wordmark -->
-    <text x="232" y="238" font-family="'Batang','Noto Serif KR',serif" font-size="72" font-weight="700" fill="#2B2521">청구친구</text>
-
+    <text x="272" y="240" font-family="'Batang','Noto Serif KR',serif" font-size="78" font-weight="700" fill="#2B2521" letter-spacing="1">청구친구</text>
     <!-- accent rule (one-stamp rule: single red accent) -->
-    <rect x="234" y="264" width="96" height="6" fill="#B3452E"/>
+    <rect x="274" y="266" width="104" height="7" rx="3.5" fill="#B3452E"/>
 
     <!-- headline -->
-    <text x="96" y="360" font-family="'Batang','Noto Serif KR',serif" font-size="46" font-weight="700" fill="#2B2521">보험금 청구, 공식 창구로 바로</text>
+    <text x="96" y="372" font-family="'Batang','Noto Serif KR',serif" font-size="50" font-weight="700" fill="#2B2521">보험금 청구, 공식 창구로 바로</text>
 
     <!-- tagline -->
-    <text x="96" y="418" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="29" font-weight="400" fill="#5B524B">생명보험 22개사 · 손해보험 16개사, 보험금 청구 바로가기 38곳</text>
-    <text x="96" y="460" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="29" font-weight="400" fill="#5B524B">실손의료비부터 사망보험금·자동차·화재보험 청구까지 한 번에</text>
+    <text x="96" y="432" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="30" font-weight="400" fill="#5B524B">생명보험 22개사 · 손해보험 16개사, 보험금 청구 바로가기 38곳</text>
+    <text x="96" y="476" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="30" font-weight="400" fill="#5B524B">실손의료비부터 사망보험금·자동차·화재보험 청구까지 한 번에</text>
 
-    <!-- domain label -->
-    <text x="96" y="546" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="22" font-weight="700" letter-spacing="1" fill="#706861">CLAIM.ZUCCA100.COM</text>
+    <!-- domain chip -->
+    <g transform="translate(96,520)">
+      <rect x="0" y="0" width="360" height="52" rx="26" fill="#ffffff" stroke="#E4D8C8" stroke-width="1.5"/>
+      <circle cx="30" cy="26" r="7" fill="#B3452E"/>
+      <text x="52" y="34" font-family="'Malgun Gothic','Pretendard',sans-serif" font-size="23" font-weight="700" letter-spacing="1" fill="#706861">CLAIM.ZUCCA100.COM</text>
+    </g>
   </g>
 </svg>
